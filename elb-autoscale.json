@@ -262,7 +262,20 @@
                   "         --region ", { "Ref" : "AWS::Region" }, "\n",
                   "runas=root\n"
                 ]]}
-              }
+              },
+              
+              "/etc/httpd/conf/vh" : {
+                "content" : { "Fn::Join" : ["", [
+                  "<VirtualHost *:80>", "\n",
+                  "  RewriteEngine On", "\n",
+                  "  RewriteCond %{HTTP:X-Forwarded-Proto} !https", "\n",
+                  "  RewriteRule . https://%{SERVER_NAME}%{REQUEST_URI} [L,R=permanent]", "\n",
+                  "</VirtualHost>", "\n"
+                ]]},
+                "mode"    : "000644",
+                "owner"   : "root",
+                "group"   : "root"
+              },              
             },
 
             "commands" : {
@@ -270,7 +283,16 @@
                 "command" : "echo '<p>'$(/opt/aws/bin/ec2-metadata -i)'</p>' >> index.html",
                 "cwd" : "/var/www/html",
                 "ignoreErrors" : "false"
-              }                 
+              },
+              "redirectHttp" : {
+                "command" : "cat vh >> httpd.conf",
+                "cwd" : "/etc/httpd/conf",
+                "ignoreErrors" : "false"
+              },
+              "restartHttpd" : {
+                "command" : "sudo service httpd restart",
+                "ignoreErrors" : "false"
+              }                  
             },
             
             "services" : {
@@ -313,7 +335,7 @@
       }
     },
 
-    "ALBListener" : {
+    "ALBListenerHttps" : {
       "Type" : "AWS::ElasticLoadBalancingV2::Listener",
       "Properties" : {
         "Certificates": [{
@@ -328,6 +350,19 @@
         "Protocol" : "HTTPS"
       }
     },
+    
+    "ALBListenerHttp" : {
+      "Type" : "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties" : {
+        "DefaultActions" : [{
+          "Type" : "forward",
+          "TargetGroupArn" : { "Ref" : "ALBTargetGroup" }
+        }],
+        "LoadBalancerArn" : { "Ref" : "ApplicationLoadBalancer" },
+        "Port" : "80",
+        "Protocol" : "HTTP"
+      }
+    },    
 
     "ALBTargetGroup" : {
       "Type" : "AWS::ElasticLoadBalancingV2::TargetGroup",
