@@ -316,17 +316,13 @@
     "ALBListener" : {
       "Type" : "AWS::ElasticLoadBalancingV2::Listener",
       "Properties" : {
-        "Certificates": [{
-          "CertificateArn": "	arn:aws:acm:ap-southeast-2:016912854364:certificate/d3852be9-21ef-40f4-a3c9-ee30672e2e60"
-        }],
         "DefaultActions" : [{
           "Type" : "forward",
           "TargetGroupArn" : { "Ref" : "ALBTargetGroup" }
         }],
         "LoadBalancerArn" : { "Ref" : "ApplicationLoadBalancer" },
-        "Port" : "443",
-        "Protocol" : "HTTPS"
-        
+        "Port" : "80",
+        "Protocol" : "HTTP"
       }
     },
 
@@ -366,7 +362,7 @@
   "Outputs" : {
     "URL" : {
       "Description" : "URL of the website",
-      "Value" :  { "Fn::Join" : [ "", [ "https://", { "Fn::GetAtt" : [ "ApplicationLoadBalancer", "DNSName" ]}]]}
+      "Value" :  { "Fn::Join" : [ "", [ "http://", { "Fn::GetAtt" : [ "ApplicationLoadBalancer", "DNSName" ]}]]}
     }
   }
 }
