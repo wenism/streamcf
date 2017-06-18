@@ -232,7 +232,7 @@
 
             "files" : {
               "/var/www/html/index.html" : {
-                "content" : "<p>This page is created from AWS::CloudFormation::Init::files</p>",
+                "content" : "<h1>Stack { "Ref" : "AWS::StackName" } </h1>",
                 "mode"    : "000644",
                 "owner"   : "root",
                 "group"   : "root"
