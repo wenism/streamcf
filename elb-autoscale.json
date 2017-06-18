@@ -325,8 +325,7 @@
         }],
         "LoadBalancerArn" : { "Ref" : "ApplicationLoadBalancer" },
         "Port" : "443",
-        "Protocol" : "HTTPS",
-        "SslPolicy" : "ELBSecurityPolicy-2016-08"
+        "Protocol" : "HTTPS"
       }
     },
 
