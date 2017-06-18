@@ -279,7 +279,7 @@
               },
 
               "/var/www/html/404.html" : {
-                "content" : "<h1>Opps, the file you requested does not exist</h1>",
+                "content" : "<h1>Custom static page for 404</h1>",
                 "mode"    : "000644",
                 "owner"   : "root",
                 "group"   : "root"
