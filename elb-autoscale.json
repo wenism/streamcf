@@ -232,7 +232,9 @@
 
             "files" : {
               "/var/www/html/index.html" : {
-                "content" : "<h1>Stack { "Ref" : "AWS::StackName" } </h1>",
+                "content" : { "Fn::Join" : ["", [
+                  "<h1>Stack ", { "Ref" : "AWS::StackName" }, "</h1>"
+                ]]},
                 "mode"    : "000644",
                 "owner"   : "root",
                 "group"   : "root"
