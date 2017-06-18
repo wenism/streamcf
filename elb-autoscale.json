@@ -267,6 +267,7 @@
               "/etc/httpd/conf/vh" : {
                 "content" : { "Fn::Join" : ["", [
                   "<VirtualHost *:80>", "\n",
+                  "  ErrorDocument 404 /404.html", "\n",
                   "  RewriteEngine On", "\n",
                   "  RewriteCond %{HTTP:X-Forwarded-Proto} !https", "\n",
                   "  RewriteRule . https://%{SERVER_NAME}%{REQUEST_URI} [L,R=permanent]", "\n",
@@ -275,7 +276,14 @@
                 "mode"    : "000644",
                 "owner"   : "root",
                 "group"   : "root"
-              },              
+              },
+
+              "/var/www/html/404.html" : {
+                "content" : "<h1>Opps, the file you requested does not exist</h1>",
+                "mode"    : "000644",
+                "owner"   : "root",
+                "group"   : "root"
+              }             
             },
 
             "commands" : {
