@@ -296,11 +296,7 @@
                 "command" : "cat vh >> httpd.conf",
                 "cwd" : "/etc/httpd/conf",
                 "ignoreErrors" : "false"
-              },
-              "restartHttpd" : {
-                "command" : "sudo service httpd restart",
-                "ignoreErrors" : "false"
-              }                  
+              }                
             },
             
             "services" : {
